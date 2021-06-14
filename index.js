@@ -1,9 +1,9 @@
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const passport = require('passport');
-const path = require('path');
 
 // Connect to DataBase
 const config = require('./config/db-keys');
@@ -13,13 +13,13 @@ const authRoutes = require('./routes/auth');
 const app = express();
 
 const port = 3000;
-
-// for using others' sites API, social net authorization, for examle
-app.use(cors());
-
+// bodyParser and cors must be upper all paths - before app.use('/admin', authRoutes);
 // to use post method of forms submitting
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit: 1000000}));
+// for using others' sites API, social net authorization, for examle
+app.use(cors());
+
 
 // run server
 // check if server is running - http://localhost:3000/
@@ -54,4 +54,4 @@ app.get('/', (req, res) => {
     // Post.find().then( posts => res.json(posts))
 });
 
-app.use('/api/auth', authRoutes)
+app.use('/admin', authRoutes);

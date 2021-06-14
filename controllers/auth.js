@@ -6,6 +6,9 @@ const keys = require('../config/db-keys')
 const errorHandler = require('../utils/errorHandler')
 
 module.exports.login = async function(req, res) {
+    console.log('req', req);
+    console.log('req.body', req.body);
+
     const candidate = await User.findOne({email: req.body.email})
 
     if (candidate) {
@@ -16,7 +19,8 @@ module.exports.login = async function(req, res) {
             const token = jwt.sign({
                 email: candidate.email,
                 userId: candidate._id
-            }, keys.jwt, {expiresIn: 60 * 60})
+            }, keys.jwt, {expiresIn: "30d"})
+            // }, keys.jwt, {expiresIn: 30 * 24 * 60 * 60 * 1000})
 
             res.status(200).json({
                 // token: token
@@ -47,6 +51,8 @@ module.exports.login = async function(req, res) {
 }
 
 module.exports.register = async function (req, res) {
+    console.log('req register', req);
+    // console.log('res', res);
     // res.status(200).json({
     //     register: 'from controller'
     // })
@@ -57,7 +63,11 @@ module.exports.register = async function (req, res) {
     // })
     // user.save().then(() => console.log('User created'))
 
+    // console.log('candidate', await User.findOne({email: req.body.email}));
+
     const candidate = await User.findOne({email: req.body.email})
+
+    console.log('candidate', candidate);
 
     if (candidate) {
         // User exists, we need throw error
