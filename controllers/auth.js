@@ -29,13 +29,15 @@ module.exports.login = async function(req, res) {
         } else {
             //passwords are not identical
             res.status(401).json({
-                message: 'Passwords are not identical. Try again'
+                // message: 'Passwords are not identical. Try again',
+                message: 'Неправильный пароль. Попробуйте еще раз'
             })
         }
     } else {
         // user is absent, error
         res.status(404).json({
-            message: 'User with such email not found'
+            // message: 'User with such email not found',
+            message: 'Пользователь с таким email не найден'
         })
     }
 
@@ -72,7 +74,8 @@ module.exports.register = async function (req, res) {
     if (candidate) {
         // User exists, we need throw error
         res.status(409).json({
-            message: 'Such email is busy. Please, try another.'
+            // message: 'Such email is busy. Please, try another.'
+            message: 'Этот email занят. Пожалуйста, попробуйте другой.'
         })
     } else {
         // we have to create user
